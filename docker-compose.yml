@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/code/app
+    environment:
+      - VALKEY_HOST=valkey
+    depends_on:
+      - valkey
+
+  valkey:
+    image: valkey/valkey:7.2
+    ports:
+      - "6379:6379"
