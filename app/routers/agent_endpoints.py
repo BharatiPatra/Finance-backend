@@ -1,10 +1,17 @@
 # routers/epf.py
+import os
+from pathlib import Path
 from fastapi import APIRouter, HTTPException, File, UploadFile, Form
 from pydantic import BaseModel
 from app.agent.finance_agent.main import run_agent
 
 
 router = APIRouter()
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+UPLOAD_DIR = BASE_DIR / "data" / "pdf"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # a dedicated response model
@@ -21,6 +28,12 @@ async def query_chat(
     message: str = Form(...),
     file: UploadFile | None = File(None),
 ):
+    if file:
+        # Save the file to the upload directory
+        file_path = UPLOAD_DIR / "file.pdf"
+        # Save the uploaded file
+        with open(file_path, "wb") as out:
+            out.write(await file.read())
     try:
         print("Running agent with request:", file)
         # Run the agent with the provided user ID, session ID, and message
