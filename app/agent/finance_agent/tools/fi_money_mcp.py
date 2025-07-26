@@ -6,7 +6,7 @@ client = MCPClient(
     config={
         "mcpServers": {
             "playwright": {
-                "url": f"http://localhost:8080/mcp/stream",
+                "url": os.getenv("MCP_SERVER_BASE_URL"),
                 "headers": {
                     "Mcp-Session-Id": "mcp-session-594e48ea-fea1-40ef-8c52-7552dd9272af"
                 },

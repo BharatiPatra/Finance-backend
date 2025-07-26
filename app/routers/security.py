@@ -28,7 +28,7 @@ def login(req: ChatRequest):
     mcp_session_id = req.mcp_session_id
 
     # Endpoint and headers
-    url = f"{os.getenv('MCP_SERVER_BASE_URL')}/mcp/stream"
+    url = os.getenv("MCP_SERVER_BASE_URL")
     headers = {"Content-Type": "application/json", "Mcp-Session-Id": mcp_session_id}
 
     # JSON-RPC payload
