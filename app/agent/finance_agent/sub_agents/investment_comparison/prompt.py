@@ -2,7 +2,7 @@
 
 INVESTMENT_COMPARISON_DESCRIPTION = (
     "Internet‑based investment comparison agent: searches the web for mutual fund returns, "
-    "stock performance, bank FD rates, and government bond yields; computes risk‑adjusted "
+    "stock performance, bank FD rates, gold, and government bond yields; computes risk‑adjusted "
     "and tax‑equivalent metrics; and ranks the top options."
 )
 

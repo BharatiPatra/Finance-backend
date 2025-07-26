@@ -2,7 +2,8 @@ from google.adk.agents import LlmAgent
 from google.adk.tools.agent_tool import AgentTool
 from app.agent.finance_agent.sub_agents.fi_money_mcp.agent import fi_money_agent
 from app.agent.finance_agent.sub_agents.tax_advisor.agent import tax_advisor_agent
-from app.agent.finance_agent.tools.math_tools import math_tool_adk
+
+# from app.agent.finance_agent.tools.math_tools import math_tool_adk
 from app.agent.finance_agent.sub_agents.search.agent import search_agent
 from app.agent.finance_agent.sub_agents.investment_comparison.agent import (
     investment_comparison_agent,
@@ -32,6 +33,6 @@ def get_root_agent():
             AgentTool(agent=tax_advisor_agent),
             AgentTool(agent=search_agent),
             AgentTool(agent=investment_comparison_agent),
-            math_tool_adk,
+            # math_tool_adk,
         ],
     )
