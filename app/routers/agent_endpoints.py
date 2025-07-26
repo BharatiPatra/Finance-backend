@@ -21,10 +21,12 @@ class ChatResponse(BaseModel):
 
 
 @router.post("/query", response_model=ChatResponse)
-def query_chat(request: ChatRequest):
+async def query_chat(request: ChatRequest):
     try:
+        print("Running agent with request:", request)
         # Run the agent with the provided user ID, session ID, and message
-        output = run_agent(request.user_id, request.session_id, request.message)
+        output = await run_agent(request.user_id, request.session_id, request.message)
+        print("Agent output:", output)
         return ChatResponse(
             user_id=request.user_id,
             session_id=request.session_id,
