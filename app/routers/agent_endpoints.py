@@ -1,16 +1,10 @@
 # routers/epf.py
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, File, UploadFile, Form
 from pydantic import BaseModel
 from app.agent.finance_agent.main import run_agent
 
 
 router = APIRouter()
-
-
-class ChatRequest(BaseModel):
-    user_id: str
-    session_id: str
-    message: str
 
 
 # a dedicated response model
@@ -21,15 +15,20 @@ class ChatResponse(BaseModel):
 
 
 @router.post("/query", response_model=ChatResponse)
-async def query_chat(request: ChatRequest):
+async def query_chat(
+    user_id: str = Form(...),
+    session_id: str = Form(...),
+    message: str = Form(...),
+    file: UploadFile | None = File(None),
+):
     try:
-        print("Running agent with request:", request)
+        print("Running agent with request:", file)
         # Run the agent with the provided user ID, session ID, and message
-        output = await run_agent(request.user_id, request.session_id, request.message)
+        output = await run_agent(user_id, session_id, message)
         print("Agent output:", output)
         return ChatResponse(
-            user_id=request.user_id,
-            session_id=request.session_id,
+            user_id=user_id,
+            session_id=session_id,
             reply=output["output"],
         )
     except Exception as e:
