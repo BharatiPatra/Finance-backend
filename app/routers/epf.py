@@ -1,14 +1,16 @@
 # routers/epf.py
-from fastapi import APIRouter,HTTPException
+from fastapi import APIRouter, HTTPException
 from pathlib import Path
 import json
 
 router = APIRouter()
 DATA_PATH = Path("app/data/epf_details.json")
 
+
 def load_epf_data():
     with open(DATA_PATH, "r") as f:
         return json.load(f)
+
 
 @router.get("/total_epf_balance")
 def get_total_epf_balance():
@@ -16,16 +18,17 @@ def get_total_epf_balance():
     balance_info = data["uanAccounts"][0]["rawDetails"]["overall_pf_balance"]
     return {
         "total_current_balance": balance_info.get("current_pf_balance"),
-        "pension_balance": balance_info.get("pension_balance")
+        "pension_balance": balance_info.get("pension_balance"),
     }
     # o/p:{"total_current_balance":"211111","pension_balance":"1000000"}
+
 
 @router.get("/epf_accounts")
 def get_epf_accounts():
     data = load_epf_data()
-    return {
-        "epf_accounts": data["uanAccounts"][0]["rawDetails"]["est_details"]
-    }
+    return {"epf_accounts": data["uanAccounts"][0]["rawDetails"]["est_details"]}
+
+
 #    o/p:{
 #   "epf_accounts": [
 #     {
@@ -77,6 +80,8 @@ def get_epf_account(member_id: str):
         if acct.get("member_id") == member_id:
             return acct
     raise HTTPException(status_code=404, detail=f"EPF account '{member_id}' not found")
+
+
 # o/p:{
 #   "est_name": "KARZA TECHNOLOGIES PRIVATE LIMITED",
 #   "member_id": "MHBANXXXXXXXXXXXXXXXXX",

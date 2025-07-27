@@ -1,6 +1,5 @@
 from google.adk.agents import LlmAgent
 from google.adk.tools.agent_tool import AgentTool
-from app.agent.finance_agent.sub_agents.file_reader.agent import file_reader_tool
 from app.agent.finance_agent.sub_agents.tax_advisor.agent import tax_advisor_agent
 
 # from app.agent.finance_agent.tools.math_tools import math_tool_adk
