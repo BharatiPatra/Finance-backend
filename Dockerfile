@@ -1,22 +1,20 @@
-# Use slim instead of alpine for better compatibility
-FROM python:3.11-slim
+FROM python:3.12-slim
 
-# Prevent Python from writing .pyc files and buffer stdout
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# 1. Install C/C++ build tools & cmake
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /code
+WORKDIR /app
 
-# Install system dependencies (optional but helpful)
-RUN apt-get update && apt-get install -y build-essential
-
-# Install Python dependencies
+# 2. Install Python deps (including hnswlib)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy your FastAPI app
-COPY ./app ./app
+# 3. Copy the rest of your code
+COPY . .
 
-# Start the FastAPI server
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
